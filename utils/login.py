@@ -1,9 +1,10 @@
-from utils import tlssession
+from utils import tlssession, getproxy
 import organizer
 
 
 class loginHelp:
     def __init__(self, username, password):
+        self.proxy = getproxy.get_random_proxy()
         self.session = tlssession.session
         self.username = username
         self.password = password
@@ -32,13 +33,13 @@ class loginHelp:
         self.session.headers.update(self.headers)
 
     def login(self):
-        res = self.session.post(self.login_api, data=self.payload, allow_redirects=True)
+        res = self.session.post(self.login_api, data=self.payload, proxy=self.proxy, allow_redirects=True)
         g = str(res.text).split('name="csrf_token" value="')[1].split('">')[0]
         self.payload['csrf_token'] = g
-        self.session.post(self.login_api, data=self.payload, allow_redirects=True)
+        self.session.post(self.login_api, data=self.payload, proxy=self.proxy, allow_redirects=True)
         url = 'https://www.reddit.com/svc/shreddit/ptPzVvzFulwNDmL2eV'
         pay = {"csrf_token": g, "data": []}
-        self.session.post(url, data=pay, allow_redirects=True)
+        self.session.post(url, data=pay, proxy=self.proxy, allow_redirects=True)
         loid = ''
         xred = ''
         autho = ''

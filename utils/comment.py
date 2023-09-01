@@ -1,4 +1,4 @@
-from utils import tlssession
+from utils import tlssession, getproxy
 import json
 
 
@@ -52,7 +52,8 @@ class commentHelper:
         res = self.session.post(
             self.url,
             headers=self.headers,
-            data=self.payload
+            data=self.payload,
+            proxy=getproxy.get_random_proxy()
         )
         print(res)
         return res
