@@ -8,22 +8,23 @@ class AccountError(Exception):
 
 
 class commentHelper:
-    def __init__(self, account_name, comment):
+    def __init__(self, account_name, comment, post_id):
         with open(r'tokens.json', 'r') as f:
             account_info = json.load(f)
         try:
             self.account = account_info[account_name]
         except KeyError:
             raise AccountError()
+        self.post_id = post_id
         self.recaptcha_token = self.account['recaptcha_token']
         self.authorization = self.account['authorization']
         self.x_reddit_loid = self.account['x-reddit-loid']
         self.x_reddit_session = self.account['x-reddit-session']
-        # TODO what the fck is thing_id
+        # TODO thing_id is the comment id shown in url
         self.payload = {
             'api_type': 'json',
             'return_rtjson': 'true',
-            'thing_id': 't3_166fmbt',
+            'thing_id': f't3_{post_id}',
             'recaptcha_token': self.recaptcha_token,
             'text': comment,
             'richtext_json': {"document": [{"e": "par", "c": [{"e": "text", "t": comment}]}]}
@@ -53,4 +54,5 @@ class commentHelper:
             headers=self.headers,
             data=self.payload
         )
+        print(res)
         return res
