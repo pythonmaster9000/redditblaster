@@ -27,3 +27,6 @@ class controlJson:
             json.dump(self.current_content, outfile, indent=4)
 
 
+if __name__ == "__main__":
+    controlJson().add_account_info('shiterman', recaptcha_token='testy', password='non', authorization='bearshit', x_reddit_loid='nonya', x_reddit_session='fat')
+
