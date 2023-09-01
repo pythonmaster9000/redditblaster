@@ -1,4 +1,4 @@
-import tlssession
+from utils import tlssession
 import json
 
 
@@ -9,7 +9,7 @@ class AccountError(Exception):
 
 class commentHelper:
     def __init__(self, account_name, comment):
-        with open(r'..\tokens.json', 'r') as f:
+        with open(r'tokens.json', 'r') as f:
             account_info = json.load(f)
         try:
             self.account = account_info[account_name]
@@ -45,7 +45,7 @@ class commentHelper:
             "Referrer-Policy": "origin-when-cross-origin"
         }
         self.url = 'https://oauth.reddit.com/api/comment.json?rtj=only&emotes_as_images=true&redditWebClient=desktop2x&app=desktop2x-client-production&raw_json=1&gilding_detail=1'
-        self.session = tlssession.session()
+        self.session = tlssession.session
 
     def post_comment(self):
         res = self.session.post(
