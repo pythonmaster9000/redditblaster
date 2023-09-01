@@ -15,6 +15,7 @@ class postHelper:
             self.account = account_info[account_name]
         except KeyError:
             raise AccountError()
+        self.session = tlssession.session
         self.title = post_title
         self.subreddit = subreddit
         self.content = post_content

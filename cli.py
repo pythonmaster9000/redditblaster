@@ -4,6 +4,13 @@ import threading
 import time
 
 
+def tokenRefresh():
+    time.sleep(86400)
+    print('refreshing after 24 hours')
+    for user in organizer.controlJson().current_content:
+        login.loginHelp(user, user['password'])
+
+
 def taskHelp(seconds_to_wait, task_type, comment_content=None, post_to_comment=None, post_content=None, post_title=None, subreddit=None):
     if task_type == 'comment':
         while True:
@@ -24,6 +31,8 @@ def taskHelp(seconds_to_wait, task_type, comment_content=None, post_to_comment=N
 
 
 if __name__ == "__main__":
+    background_thread = threading.Thread(target=tokenRefresh)
+    background_thread.start()
     while True:
         print('1. Add user')
         print('2. Schedule comment on post')
